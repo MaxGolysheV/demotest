@@ -10,9 +10,9 @@
   <form th:action="'/games/'+${g.id}+'/edit'" method="post">
     <input th:value="${g.title}" type="text" name="title"><br>
     <input th:value="${g.publisher}" type="text" name="publisher"><br>
-    <input type="date" name="date" placeholder="date"><br>
-    <input type="text" name="genre" placeholder="genre"><br>
-    <input type="number" name="age" placeholder="age"><br>
+    <input th:value="${g.date}" type="date" name="date" placeholder="date"><br>
+    <input th:value="${g.genre}" type="text" name="genre" placeholder="genre"><br>
+    <input th:value="${g.age}" type="number" name="age" placeholder="age"><br>
     <button type="submit">Подтвердить</button>
 
   </form>

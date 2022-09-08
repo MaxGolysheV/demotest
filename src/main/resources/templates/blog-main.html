@@ -40,10 +40,8 @@
         <a href="/blog/weapons">Сделать заказ</a>
         <div th:each="ll:${weapons}">
             <h5 th:text="${ll.title}"/>
-            <p th:text="${ll.fire}"/>
-            <p th:text="${ll.uses}"></p>
-            <p th:text="${ll.info}"></p>
             <p th:text="${ll.price}"></p>
+            <a th:href="'/weapons/'+${ll.id}">Подробнее</a>
         </div>
     </th>
 </table>

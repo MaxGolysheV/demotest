@@ -44,6 +44,30 @@ public class BlogController {
         return "blog-main";
     }
 
+    @GetMapping("/blog")
+    public String posts(Model model)
+    {
+        Iterable<Post> posts = postRepository.findAll();
+        model.addAttribute("posts",posts);
+        return "posts";
+    }
+    @GetMapping("/games")
+    public String gamesMain(Model model)
+    {
+        Iterable<Games> games = gamesRepository.findAll();
+        model.addAttribute("games",games);
+        return "games";
+    }
+
+
+    @GetMapping("/weapons")
+    public String weaponsMain(Model model)
+    {
+        Iterable<Weapons> weapons = weaponRepository.findAll();
+        model.addAttribute("weapons",weapons);
+        return "weapons";
+    }
+
     @GetMapping("/blog/add")
     public String blogAdd(Model model) {return "blog-add";}
 
@@ -57,7 +81,7 @@ public class BlogController {
 
         Post post = new Post(title,anons,full_text);
         postRepository.save(post);
-        return "redirect:/";
+        return "redirect:/blog";
     }
 
     @GetMapping("blog/filter")
@@ -127,7 +151,6 @@ public class BlogController {
     }
 
 
-
     //ПР2
     //игры
 
@@ -148,7 +171,7 @@ public class BlogController {
         {
             Games post = new Games(title, publisher, date, genre, age);
             gamesRepository.save(post);
-            return "redirect:/";
+            return "redirect:/games";
         }
         @GetMapping("/blog/gamesfilter")
         public String gamesFilter (Model model)
@@ -184,7 +207,7 @@ public class BlogController {
             model.addAttribute("game", res);
             return "games-details";
         }
-        return "redirect:/";
+        return "redirect:/games";
     }
     // изменение игры
     @GetMapping("/games/{id_game}/edit")
@@ -217,7 +240,7 @@ public class BlogController {
         game.setGenre(genre);
         game.setAge(age);
         gamesRepository.save(game);
-        return "redirect:/";
+        return "redirect:/games";
     }
 
     //Удаление игры
@@ -225,7 +248,7 @@ public class BlogController {
     public String gameDelete(@PathVariable("id_game") long id_game, Model model){
         Games pcs = gamesRepository.findById(id_game).orElseThrow();
         gamesRepository.delete(pcs);
-        return "redirect:/";
+        return "redirect:/games";
     }
 
 
@@ -280,4 +303,61 @@ public class BlogController {
         }
         return "weapon-filter";
     }
+
+    //подробнее об оружии
+    @GetMapping("/weapons/{id_weapon}")
+    public String weaponsDetails(@PathVariable(value="id_weapon") long id_weapon, Model model)
+    {
+        Optional<Weapons> w = weaponRepository.findById(id_weapon);
+        if( w.isPresent() )
+        {
+            List<Weapons> res = new ArrayList<>();
+            res.add(w.get());
+            model.addAttribute("weapon", res);
+            return "weapons-details";
+        }
+        return "redirect:/weapons";
+    }
+    //изменение данных оружия
+    @GetMapping("/weapons/{id_weapon}/edit")
+    public String weaponsEdit(@PathVariable("id_weapon") long id_weapon,Model model )
+    {
+
+        if(!weaponRepository.existsById(id_weapon))
+        {return "redirect:/weapons";}
+
+        Optional<Weapons> weapon = weaponRepository.findById(id_weapon);
+        ArrayList<Weapons> res = new ArrayList<>();
+        weapon.ifPresent(res::add);
+        model.addAttribute("weapon",res);
+        return "weapons-edit";
+    }
+    //обновление оружия
+    @PostMapping("/weapons/{id_weapon}/edit")
+    public String weaponsUpdate(@PathVariable("id_weapon")long id_weapon,
+                             @RequestParam(required = false, defaultValue = "Example") String title,
+                             @RequestParam(defaultValue = "false") boolean fire,
+                             @RequestParam int uses,
+                             @RequestParam(required = false, defaultValue = "Example") String info,
+                             @RequestParam double price
+            ,Model model)
+    {
+        Weapons weapon = weaponRepository.findById(id_weapon).orElseThrow();
+        weapon.setTitle(title);
+        weapon.setFire(fire);
+        weapon.setUses(uses);
+        weapon.setInfo(info);
+        weapon.setPrice(price);
+        weaponRepository.save(weapon);
+        return "redirect:/weapons";
+    }
+    //удаление оружия
+    @PostMapping("/weapons/{id_weapon}/delete")
+    public String weaponsDelete(@PathVariable("id_weapon") long id_weapon, Model model){
+        Weapons pcs = weaponRepository.findById(id_weapon).orElseThrow();
+        weaponRepository.delete(pcs);
+        return "redirect:/weapons";
+    }
+
+
 }
