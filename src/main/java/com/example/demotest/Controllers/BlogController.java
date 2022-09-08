@@ -130,51 +130,103 @@ public class BlogController {
 
     //ПР2
     //игры
-    @GetMapping("/blog/gamesadd")
-    public String games(Model model)
-    {
-        return "games-add";
-    }
 
-    @PostMapping("/blog/gamesadd")
-    public String gamesAdd(
+        @GetMapping("/blog/gamesadd")
+        public String games (Model model)
+        {
+            return "games-add";
+        }
+
+        @PostMapping("/blog/gamesadd")
+        public String gamesAdd (
             @RequestParam(required = false, defaultValue = "Example") String title,
             @RequestParam(required = false, defaultValue = "Example") String publisher,
             @RequestParam Date date,
             @RequestParam(required = false, defaultValue = "Example") String genre,
-            @RequestParam int age
+        @RequestParam int age
             ,Model model)
+        {
+            Games post = new Games(title, publisher, date, genre, age);
+            gamesRepository.save(post);
+            return "redirect:/";
+        }
+        @GetMapping("/blog/gamesfilter")
+        public String gamesFilter (Model model)
+        {
+            return "games-filter";
+        }
+        @PostMapping("blog/gamesfilter/result")
+        public String gamesFilterResult (
+            @RequestParam String title,
+        @RequestParam/*(defaultValue = "0")*/ int rule,
+        Model model)
+        {
+            if (rule == 1) {
+                List<Games> result = gamesRepository.findByTitle(title);
+                model.addAttribute("result", result);
+            } else if (rule == 0) {
+                List<Games> result = gamesRepository.findByTitleContains(title);
+                model.addAttribute("result", result);
+            }
+            return "games-filter";
+        }
+
+
+    //подробнее об игре
+    @GetMapping("/games/{id_game}")
+    public String gamesDetails(@PathVariable(value="id_game") long id_game, Model model)
     {
-        Games post = new Games(title,publisher,date,genre,age);
-        gamesRepository.save(post);
+        Optional<Games> g = gamesRepository.findById(id_game);
+        if( g.isPresent() )
+        {
+            List<Games> res = new ArrayList<>();
+            res.add(g.get());
+            model.addAttribute("game", res);
+            return "games-details";
+        }
         return "redirect:/";
     }
-    @GetMapping("/blog/gamesfilter")
-    public String gamesFilter(Model model)
+    // изменение игры
+    @GetMapping("/games/{id_game}/edit")
+    public String gamesEdit(@PathVariable("id_game") long id_game,Model model )
     {
-        return "games-filter";
+
+        if(!gamesRepository.existsById(id_game))
+        {return "redirect:/";}
+
+        Optional<Games> game = gamesRepository.findById(id_game);
+        ArrayList<Games> res = new ArrayList<>();
+        game.ifPresent(res::add);
+        model.addAttribute("game",res);
+        return "games-edit";
     }
-    @PostMapping("blog/gamesfilter/result")
-    public String gamesFilterResult (
-            @RequestParam String title,
-            @RequestParam/*(defaultValue = "0")*/ int rule,
-            Model model)
+    //обновление игры
+    @PostMapping("/games/{id_game}/edit")
+    public String blogUpdate(@PathVariable("id_game")long id_game,
+                             @RequestParam(required = false, defaultValue = "Example") String title,
+                             @RequestParam(required = false, defaultValue = "Example") String publisher,
+                             @RequestParam Date date,
+                             @RequestParam(required = false, defaultValue = "Example") String genre,
+                             @RequestParam int age
+            ,Model model)
     {
-        if(rule == 1)
-        {
-            List<Games> result = gamesRepository.findByTitle(title);
-            model.addAttribute("result", result);
-        }
-        else if (rule == 0)
-        {
-            List<Games> result = gamesRepository.findByTitleContains(title);
-            model.addAttribute("result", result);
-        }
-        return "games-filter";
+        Games game = gamesRepository.findById(id_game).orElseThrow();
+        game.setTitle(title);
+        game.setPublisher(publisher);
+        game.setDate(date);
+        game.setGenre(genre);
+        game.setAge(age);
+        gamesRepository.save(game);
+        return "redirect:/";
     }
 
-
-
+    //Удаление игры
+    @PostMapping("/games/{id_game}/delete")
+    public String gameDelete(@PathVariable("id_game") long id_game, Model model){
+        Games pcs = gamesRepository.findById(id_game).orElseThrow();
+        gamesRepository.delete(pcs);
+        return "redirect:/";
+    }
 
 
 

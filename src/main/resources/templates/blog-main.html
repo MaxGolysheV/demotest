@@ -9,26 +9,29 @@
 <header th:insert="blocks/header"/>
 
 <table>
-    <th>
+
             <h1>Все стaтьи</h1>
-            <a href="">Поиск</a>
-            <a href="">Добавить статью</a>
-            <div th:each="el:${posts}">
-                <h5 th:text="${el.title}"/>
-                <p th:text="${el.anons}"></p>
-                <a th:href="'/blog/'+${el.id}">Подробнее</a>
-            </div>
-    </th>
+            <a href="/blog/filter">Поиск</a>
+            <a href="/blog/add">Добавить статью</a>
+    <th>Название</th>
+    <th>Анонс</th>
+            <tr th:each="el:${posts}">
+                <td th:text="${el.title}"/>
+                <td th:text="${el.anons}"></td>
+                <td>
+                    <form th:action="'/blog/'+${el.id}">
+                    <button th:href="'/blog/'+${el.id}">Подробнее</button>
+                    </form></td>
+
+            </tr>
+
     <th>
             <h1>Все игры</h1>
             <a href="/blog/gamesfilter">Поиск</a>
             <a href="/blog/gamesadd">Добавить игру</a>
             <div th:each="al:${games}">
                 <h5 th:text="${al.title}"/>
-                <p th:text="${al.publisher}"></p>
-                <p th:text="${al.date}"></p>
-                <p th:text="${al.genre}"></p>
-                <p th:text="${al.age}"></p>
+                <a th:href="'/games/'+${al.id}">Подробнее</a>
             </div>
     </th>
     <th>

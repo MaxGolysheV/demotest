@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Get started</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<div th:each="g:${game}">
+  <form th:action="'/games/'+${g.id}+'/edit'" method="post">
+    <input th:value="${g.title}" type="text" name="title"><br>
+    <input th:value="${g.publisher}" type="text" name="publisher"><br>
+    <input type="date" name="date" placeholder="date"><br>
+    <input type="text" name="genre" placeholder="genre"><br>
+    <input type="number" name="age" placeholder="age"><br>
+    <button type="submit">Подтвердить</button>
+
+  </form>
+</div>
+
+</body>
+</html>
