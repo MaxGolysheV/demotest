@@ -16,6 +16,7 @@
             <div th:each="el:${posts}">
                 <h5 th:text="${el.title}"/>
                 <p th:text="${el.anons}"></p>
+                <a th:href="'/blog/'+${el.id}">Подробнее</a>
             </div>
     </th>
     <th>
@@ -43,12 +44,5 @@
         </div>
     </th>
 </table>
-
-
-
-
-
-
-
 </body>
 </html>
