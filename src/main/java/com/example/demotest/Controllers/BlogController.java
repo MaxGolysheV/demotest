@@ -41,7 +41,7 @@ public class BlogController {
 
         Iterable<Weapons> weapons = weaponRepository.findAll();
         model.addAttribute("weapons",weapons);
-        return "blog-main";
+        return "posts";
     }
 
     @GetMapping("/blog")
@@ -274,7 +274,7 @@ public class BlogController {
     {
         Weapons w = new Weapons(title,fire,uses,info,price);
         weaponRepository.save(w);
-        return "redirect:/";
+        return "redirect:/weapons";
     }
 
 
