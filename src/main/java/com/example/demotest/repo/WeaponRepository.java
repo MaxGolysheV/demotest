@@ -12,4 +12,9 @@ public interface WeaponRepository extends CrudRepository<Weapons,Long> {
     List<Weapons> findByTitle(String title);// поиск по точному названию
 
     List<Weapons> findByTitleContains(String title);// поиск по символам и содержимому
+
+
+    Weapons findById(long id);
+
+    Weapons deleteById(long id);
 }

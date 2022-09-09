@@ -7,19 +7,36 @@
 </head>
 <body>
 <header th:insert="blocks/header"/>
-<div th:each="w:${weapon}">
-  <form th:action="'/weapons/'+${w.id}+'/edit'" method="post">
+
+<div th:each="w:${weapon_value}">
+  <form th:action="'/weapons/'+${w.id}+'/edit'" method="post" th:object="${weapon}">
+
     <input th:value="${w.title}" type="text" name="title" placeholder="Название"><br>
+    <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+
+
     <select type="checkbox" th:value="${w.fire}" name="fire">
       <option value="0" label="Не огнестрельное"/>
       <option value="1" label="Огнестрельное"/>
     </select><br>
+    <div style="color: red" th:if="${#fields.hasErrors('fire')}" th:errors="*{fire}"></div>
+
+
     <p></p>
     <input th:value="${w.uses}" type="number" name="uses" placeholder="Использования"><br>
+    <div style="color: red" th:if="${#fields.hasErrors('uses')}" th:errors="*{uses}"></div>
+
+
     <p></p>
     <input th:value="${w.info}" type="text" name="info" placeholder="Информация"><br>
+    <div style="color: red" th:if="${#fields.hasErrors('info')}" th:errors="*{info}"></div>
+
+
     <p></p>
     <input th:value="${w.price}" type="number" name="price" placeholder="Цена"><br>
+    <div style="color: red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+
+
     <button type="submit">Подтвердить</button>
   </form>
 </div>

@@ -1,11 +1,18 @@
 package com.example.demotest.Models;
 
 
+import net.bytebuddy.implementation.bind.annotation.Default;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 
 @Entity
@@ -13,13 +20,30 @@ public class Games {
     @Id
     @GeneratedValue//автоинкремент
     private Long id;
-    @NonNull
+
+    @NotEmpty(message = "Данные поля не могут быть пустыми")
+    @Size(min=2,max=50, message = "Размер данного поля должен быть в диапазоне от 2 до 50")
     private String title;
+
+    @NotEmpty(message = "Данные поля не могут быть пустыми")
+    @Size(min=2,max=50, message = "Размер данного поля должен быть в диапазоне от 2 до 50")
     private String publisher;
+
+
+    @NotNull(message = "Данные поля не могут быть пустыми")
     private Date date;
+
+    @NotEmpty(message = "Данные поля не могут быть пустыми")
+    @Size(min=2,max=50, message = "Размер данного поля должен быть в диапазоне от 2 до 50")
     private String genre;
+
+    @NotNull(message = "Данные поля не могут быть пустыми")
+    @Positive (message = "Данные поля не могут быть мньше нуля")
     private int age;
-    public Games(@NonNull String title, String publisher, Date date, String genre, int age) {
+
+
+
+    public Games(String title, String publisher, Date date, String genre, int age) {
         this.title = title;
         this.publisher = publisher;
         this.date = date;

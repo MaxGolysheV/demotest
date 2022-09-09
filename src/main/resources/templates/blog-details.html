@@ -18,7 +18,7 @@
     <p th:text="${el.full_text}"></p>
     <a th:href="'/blog/'+${el.id}+'/edit'">Править</a>
     <form th:action="'/blog/'+${el.id}+'/delete'" method="post">
-        <button type="submit" class="btn btn-del" value="Удалить"/>
+        <button type="submit" class="btn btn-del">Удалить</button>
     </form>
 
 </div>

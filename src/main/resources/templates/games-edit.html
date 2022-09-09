@@ -7,13 +7,39 @@
 </head>
 <body>
 <header th:insert="blocks/header"/>
-<div th:each="g:${game}">
+<!--<div th:each="g:${game}">
   <form th:action="'/games/'+${g.id}+'/edit'" method="post">
     <input th:value="${g.title}" type="text" name="title" placeholder="Название"><br>
     <input th:value="${g.publisher}" type="text" name="publisher"  placeholder="Издатель"><br>
     <input th:value="${g.date}" type="date" name="date" placeholder="Дата выпуска"><br>
     <input th:value="${g.genre}" type="text" name="genre" placeholder="Жанр"><br>
     <input th:value="${g.age}" type="number" name="age" placeholder="Возрастной рейтинг"><br>
+    <button type="submit">Подтвердить</button>
+  </form>
+</div>-->
+
+<div th:each="g:${game_values}" >
+  <form th:action="'/games/'+${g.id}+'/edit'" method="post" th:object="${game}">
+    <input th:value="${g.title}"  type="text" name="title" placeholder="Название"><br>
+    <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+
+
+    <input th:value="${g.publisher}" type="text" name="publisher"  placeholder="Издатель"><br>
+    <div style="color: red" th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}"></div>
+
+
+    <input th:value="${g.date}" type="date" name="date" placeholder="Дата выпуска"><br>
+    <div style="color: red" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div>
+
+
+    <input th:value="${g.genre}" type="text" name="genre" placeholder="Жанр"><br>
+    <div style="color: red" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></div>
+
+
+    <input th:value="${g.age}" type="number" name="age" placeholder="Возрастной рейтинг"><br>
+    <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+
+
     <button type="submit">Подтвердить</button>
   </form>
 </div>

@@ -5,14 +5,22 @@ import org.springframework.lang.NonNull;
 import  javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Post {
+
+
 
     @Id
     @GeneratedValue//автоинкремент
     private Long id;
     //@NonNull
+
+    @NotEmpty(message = "Данные поля не могут быть пустыми")
+    @Size(min=2,max=50, message = "Размер данного поля должен быть в диапазоне от 2 до 50")
+
     private String title, anons, full_text;
     private int views;
 

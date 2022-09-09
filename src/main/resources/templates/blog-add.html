@@ -7,10 +7,15 @@
 </head>
 <body>
 <header th:insert="blocks/header"/>
-<form th:action="${'/blog/add'}" method="post">
-  <input type="text" name="title" placeholder="Название"><br>
-  <input type="text" name="anons" placeholder="Анонс"><br>
-  <textarea name="full_text" placeholder="Содержимое"></textarea>
+<form th:action="${'/blog/add'}" method="post" th:object="${post}">
+  <input th:field="*{title}" type="text" name="title" placeholder="Название"><br>
+   <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+  <!--если срабатывает th:if, то  th:error пишется-->
+  <input th:field="*{anons}" type="text" name="anons" placeholder="Анонс"><br>
+  <div style="color: red" th:if="${#fields.hasErrors('anons')}" th:errors="*{anons}"></div>
+  <textarea th:field="*{full_text}" name="full_text" placeholder="Содержимое"></textarea>
+  <div style="color: red" th:if="${#fields.hasErrors('full_text')}" th:errors="*{full_text}"></div>
+
   <button type="submit">Добавить статью</button>
 
 </form>

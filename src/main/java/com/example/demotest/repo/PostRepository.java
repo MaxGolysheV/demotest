@@ -10,4 +10,7 @@ public interface PostRepository extends CrudRepository<Post,Long>{
 
     List<Post> findByTitleContains(String title);// поиск по символам и содержимому
 
+    Post findById(long id);
+    Post deleteById(long id);
+
 }

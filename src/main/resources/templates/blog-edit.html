@@ -8,7 +8,7 @@
 <body>
 <header th:insert="blocks/header"/>
 
-<div th:each="p:${post}">
+<!--<div th:each="p:${post}">
    <form th:action="'/blog/'+${p.id}+'/edit'" method="post">
        <p>Название</p>
        <input th:value="${p.title}" type="text" name="title" placeholder="Название"><br>
@@ -18,8 +18,25 @@
        <textarea th:value="${p.full_text}" name="full_text" placeholder="Содержание"></textarea>
        <button type="submit">Подтвердить</button>
    </form>
-</div>
+</div>-->
 
+<div th:each="p:${post_values}">
+    <form th:action="'/blog/'+${p.id}+'/edit'"  method="post"  th:object="${post}" >
+        <p>Название</p>
+        <input th:value="${p.title}"  th:name="title" type="text" placeholder="Название"><br>
+        <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+
+        <p>Анонс</p>
+        <input th:value="${p.anons}" th:name="anons" type="text" placeholder="Анонс"><br>
+        <div style="color: red" th:if="${#fields.hasErrors('anons')}" th:errors="*{anons}"></div>
+
+        <p>Статья</p>
+        <textarea th:text="${p.full_text}" th:name="full_text" placeholder="Содержание"></textarea>
+        <div style="color: red" th:if="${#fields.hasErrors('full_text')}" th:errors="*{full_text}"></div>
+
+        <button type="submit">Подтвердить</button>
+    </form>
+</div>
 
 </body>
 </html>

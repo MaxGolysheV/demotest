@@ -7,13 +7,30 @@
 </head>
 <body>
 <header th:insert="blocks/header"/>
-<form th:action="${'/blog/weapons'}" method="post">
-  <input type="text" name="title" placeholder="Название"><br>
+<form th:action="${'/blog/weapons'}" method="post" th:object="${weapons}">
+
+
+  <input th:field="*{title}" type="text" name="title" placeholder="Название"><br>
+  <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+
+
   <p>Огнестрельное \ Не огнестрельное</p>
-  <input type="checkbox" name="fire" placeholder="Тип оружия"><br>
-  <input type="number" name="uses" placeholder="Использования"><br>
-  <textarea type="text" name="info" placeholder="Информация"></textarea><br>
-  <input type="number" name="price" placeholder="Цена"><br>
+  <input th:field="*{fire}"  type="checkbox" name="fire" placeholder="Тип оружия"><br>
+  <div style="color: red" th:if="${#fields.hasErrors('fire')}" th:errors="*{fire}"></div>
+
+
+  <input th:field="*{uses}"  type="number" name="uses" placeholder="Использования"><br>
+  <div style="color: red" th:if="${#fields.hasErrors('uses')}" th:errors="*{uses}"></div>
+
+
+  <textarea th:field="*{info}"  type="text" name="info" placeholder="Информация"></textarea><br>
+  <div style="color: red" th:if="${#fields.hasErrors('info')}" th:errors="*{info}"></div>
+
+
+  <input th:field="*{price}"  type="number" name="price" placeholder="Цена"><br>
+  <div style="color: red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+
+
   <button type="submit">Добавить оружие</button>
 </form>
 </body>
