@@ -9,10 +9,7 @@ import org.springframework.lang.NonNull;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.sql.Date;
 
 @Entity
@@ -29,7 +26,7 @@ public class Games {
     @Size(min=2,max=50, message = "Размер данного поля должен быть в диапазоне от 2 до 50")
     private String publisher;
 
-
+    @Past
     @NotNull(message = "Данные поля не могут быть пустыми")
     private Date date;
 

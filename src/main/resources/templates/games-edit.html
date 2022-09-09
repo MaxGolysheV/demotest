@@ -17,7 +17,6 @@
     <button type="submit">Подтвердить</button>
   </form>
 </div>-->
-
 <div th:each="g:${game_values}" >
   <form th:action="'/games/'+${g.id}+'/edit'" method="post" th:object="${game}">
     <input th:value="${g.title}"  type="text" name="title" placeholder="Название"><br>
@@ -38,8 +37,6 @@
 
     <input th:value="${g.age}" type="number" name="age" placeholder="Возрастной рейтинг"><br>
     <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
-
-
     <button type="submit">Подтвердить</button>
   </form>
 </div>

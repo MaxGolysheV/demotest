@@ -8,10 +8,7 @@ import org.springframework.lang.NonNull;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Entity
 public class Weapons {
@@ -19,22 +16,18 @@ public class Weapons {
     @Id
     @GeneratedValue//автоинкремент
     private Long id;
-
     @NotEmpty(message = "Данные поля не могут быть пустыми")
     @Size(min=2,max=50, message = "Размер данного поля должен быть в диапазоне от 2 до 50")
     private String title;
-
-
     @NotNull
     private  boolean fire;
-
+    @PositiveOrZero
     @NotNull (message = "Значение не должно быть пустым")
     private int uses;
-
     @NotEmpty(message = "Данные поля не могут быть пустыми")
     @Size(min=2,max=50, message = "Размер данного поля должен быть в диапазоне от 2 до 50")
     private String info;
-
+    @Positive
     @NotNull (message = "Значение не должно быть пустым")
     private  double price;
 
