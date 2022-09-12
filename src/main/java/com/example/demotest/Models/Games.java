@@ -2,6 +2,7 @@ package com.example.demotest.Models;
 
 
 import net.bytebuddy.implementation.bind.annotation.Default;
+import org.hibernate.annotations.ForeignKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.lang.NonNull;
@@ -25,6 +26,7 @@ public class Games {
     @NotEmpty(message = "Данные поля не могут быть пустыми")
     @Size(min=2,max=50, message = "Размер данного поля должен быть в диапазоне от 2 до 50")
     private String publisher;
+
 
     @Past
     @NotNull(message = "Данные поля не могут быть пустыми")
