@@ -13,9 +13,17 @@
       </a>
 
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="/blog" class="nav-link px-2 text-secondary">Статьи</a></li>
+        <li><a href="/blog" class="nav-link px-2 text-white">Статьи</a></li>
         <li><a href="/games" class="nav-link px-2 text-white">Игры</a></li>
         <li><a href="/weapons" class="nav-link px-2 text-white">Оружейник</a></li>
+
+
+        <li><form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true"> <!--k-->
+          <input class="nav-link px-2 background-black"  type="submit" value="Sign Out"/>
+        </form>
+        </li>
+
+
         <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
         <li><a href="#" class="nav-link px-2 text-white">About</a></li>
       </ul>
@@ -24,9 +32,14 @@
         <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
       </form>
 
+
+
       <div class="text-end">
         <button type="button" class="btn btn-outline-light me-2">Login</button>
         <button type="button" class="btn btn-warning">Sign-up</button>
+
+
+
       </div>
     </div>
   </div>
