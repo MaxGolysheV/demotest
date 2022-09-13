@@ -20,6 +20,9 @@
     <p th:text="${w.info}"></p>
     <p>Цена</p>
     <p th:text="${w.price}"></p>
+    <p>Создатель</p>
+    <p th:text="${w.weaponMaker.name}"></p>
+
     <a th:href="'/weapons/'+${w.id}+'/edit'">Править</a>
     <form th:action="'/weapons/'+${w.id}+'/delete'" method="post">
         <button type="submit" class="btn btn-del">Удалить</button>

@@ -5,9 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.lang.NonNull;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Entity
@@ -31,13 +29,37 @@ public class Weapons {
     @NotNull (message = "Значение не должно быть пустым")
     private  double price;
 
-    public Weapons( String title, boolean fire, int uses, String info, double price) {
+
+
+    @ManyToOne(optional = true,//
+            cascade = CascadeType.ALL)
+    private WeaponMaker weaponMaker;
+
+
+
+    public Weapons(String title,//
+                   boolean fire,
+                   int uses,
+                   String info,
+                   double price,
+                   WeaponMaker weaponMaker) {
         this.title = title;
         this.fire = fire;
         this.uses = uses;
         this.info = info;
         this.price = price;
+        this.weaponMaker = weaponMaker;
     }
+
+
+    public WeaponMaker getWeaponMaker() {
+        return weaponMaker;
+    }
+
+    public void setWeaponMaker(WeaponMaker weaponMaker) {
+        this.weaponMaker = weaponMaker;
+    }
+
     public Weapons() {
     }
 

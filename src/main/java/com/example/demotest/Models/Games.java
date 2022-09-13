@@ -7,11 +7,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.lang.NonNull;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 public class Games {
@@ -41,6 +40,19 @@ public class Games {
     private int age;
 
 
+    @ManyToMany
+    @JoinTable(name = "game_award",
+    joinColumns = @JoinColumn(name = "game_id"),
+    inverseJoinColumns = @JoinColumn(name = "award_id"))
+    private List<GameAwards> awards;
+
+    public List<GameAwards> getAwards() {
+        return awards;
+    }
+
+    public void setAwards(List<GameAwards> awards) {
+        this.awards = awards;
+    }
 
     public Games(String title, String publisher, Date date, String genre, int age) {
         this.title = title;

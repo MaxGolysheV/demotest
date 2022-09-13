@@ -11,6 +11,10 @@ public interface GamesRepositiry extends CrudRepository<Games,Long> {
     List<Games> findByTitle(String title);// поиск по точному названию
     List<Games> findByTitleContains(String title);// поиск по символам и содержимому
 
+
+
+
+
     Games findById(long id);
     Games deleteById(long id);
 }

@@ -1,14 +1,11 @@
 package com.example.demotest.Controllers;
 
 
-import com.example.demotest.Models.Games;
-import com.example.demotest.Models.Post;
-import com.example.demotest.Models.Weapons;
-import com.example.demotest.repo.GamesRepositiry;
-import com.example.demotest.repo.PostRepository;
-import com.example.demotest.repo.WeaponRepository;
+import com.example.demotest.Models.*;
+import com.example.demotest.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,6 +38,8 @@ public class BlogController {
 
         Iterable<Weapons> weapons = weaponRepository.findAll();
         model.addAttribute("weapons",weapons);
+
+
         return "posts";
     }
 
@@ -328,6 +327,9 @@ public class BlogController {
     @GetMapping("/blog/weapons")
     public String weapons(Weapons weapons, Model model)
     {
+        Iterable<WeaponMaker> maker = weaponMakerRepository.findAll();//
+        model.addAttribute("maker",maker);
+
         return "weapon-add";
     }
 
@@ -346,12 +348,17 @@ public class BlogController {
     }*/
 
     @PostMapping("/blog/weapons")
-    public String weaponAdd(@ModelAttribute("weapons") @Valid Weapons weapons, BindingResult bindingResult)
+    public String weaponAdd(@ModelAttribute("weapons") @Valid Weapons weapons,
+                            @RequestParam String maker,
+                            BindingResult bindingResult)//
     {
         if(bindingResult.hasErrors())
         {
             return "weapon-add";
+
         }
+        weapons.setWeaponMaker(weaponMakerRepository.findByName(maker));
+
         weaponRepository.save(weapons);
         return "redirect:/weapons";
     }
@@ -397,12 +404,16 @@ public class BlogController {
     @GetMapping("/weapons/{id_weapon}/edit")
     public String weaponsEdit(
             @ModelAttribute("weapon") Weapons weapon,
+
             @PathVariable("id_weapon") long id_weapon,
             Model model )
     {
 
         if(!weaponRepository.existsById(id_weapon))
         {return "redirect:/weapons";}
+
+        Iterable<WeaponMaker> maker = weaponMakerRepository.findAll();//
+        model.addAttribute("maker",maker);
 
         long i = id_weapon;
         Weapons w = weaponRepository.findById(i);
@@ -417,6 +428,7 @@ public class BlogController {
     public String weaponsUpdate(
             @ModelAttribute("weapon") @Valid Weapons weapon,
             BindingResult bindingResult,
+            @RequestParam String maker,
             @PathVariable("id_weapon")long id_weapon
             ,Model model)
     {
@@ -440,6 +452,9 @@ public class BlogController {
         rWep.setInfo(weapon.getInfo());
         rWep.setPrice(weapon.getPrice());
 
+
+        rWep.setWeaponMaker(weaponMakerRepository.findByName(maker));//
+
         weaponRepository.save(rWep);
         return "redirect:/weapons";
     }
@@ -450,5 +465,70 @@ public class BlogController {
         return "redirect:/weapons";
     }
 
+
+
+    //Many to One
+
+    @Autowired
+    public WeaponMakerRepository weaponMakerRepository;
+
+
+    //One to one
+
+    @Autowired
+    private LicenceRepository licenceRepository;
+
+
+
+
+
+    @GetMapping("/weapons/maker")
+    public String makerLicence(Model model)
+    {
+        List<WeaponMakerLicence> pasport = licenceRepository.findAll();
+
+        int siz=0;
+        for (siz=pasport.size()-1;siz>=0;siz--){if (pasport.get(siz).getMaker()!=null){pasport.remove(siz);}}
+
+
+        model.addAttribute("pasport", pasport);
+
+        return "weapon-maker";
+    }
+
+    @PostMapping("/weapons/maker")
+    public String blogPostAdd(
+            @RequestParam String lname,//
+            @RequestParam String mname,//
+            Model model)
+    {
+
+      /*  Iterable<WeaponMaker> maker = weaponMakerRepository.findAll();
+        model.addAttribute("pasport", maker);//заполнение списка мастеров
+        WeaponMaker makers = weaponMakerRepository.findByName(mname);
+        WeaponMakerLicence licence = new WeaponMakerLicence(lname,makers);
+
+
+        licence.setMaker(weaponMakerRepository.findByName(mname));
+        weaponMakerRepository.save(makers);
+        licenceRepository.save(licence);*/
+
+        Iterable<WeaponMakerLicence> licences = licenceRepository.findAll();
+        model.addAttribute("pasport", licences);
+
+        WeaponMakerLicence lic = licenceRepository.findByName(lname);
+
+        WeaponMaker maker = new WeaponMaker(mname,lic);
+
+        maker.setLicence(licenceRepository.findByName(lname));
+        lic.setMaker(maker);
+        //licenceRepository.save(lic);
+        weaponMakerRepository.save(maker);
+
+
+
+        return "redirect:/weapons";
+
+    }
 
 }

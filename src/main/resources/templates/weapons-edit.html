@@ -36,6 +36,11 @@
     <input th:value="${w.price}" type="number" name="price" placeholder="Цена"><br>
     <div style="color: red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
 
+    <select  name="maker"> <!--создатель оружия-->
+      <div th:each="element : ${maker}">
+        <option th:text="${element.name}"></option>
+      </div>
+    </select>
 
     <button type="submit">Подтвердить</button>
   </form>
